@@ -1,0 +1,29 @@
+.btn {
+    width: 125px;
+    padding: 10px 0px;
+    border-radius: 20px;
+    display: block; //Fica um botão debaixo do outro
+    margin-top: 10px;
+
+    &.btn-roxo {
+        background-color: purple;
+        color: white;
+        border: solid;
+        border-color: black;
+        cursor: pointer;
+    }
+
+    &.btn-amarelo {
+        background-color: yellow;
+        color: black;
+        border: solid;
+        border-color: black;
+        cursor: pointer;
+    }
+}
+
+.btn-azul { //Sem Herança no Class HTML 
+    @extend .btn;
+    background-color: blue;
+    color: white;
+}

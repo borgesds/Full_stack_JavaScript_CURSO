@@ -1,0 +1,24 @@
+.btn, .btn-azul {
+  width: 125px;
+  padding: 10px 0px;
+  border-radius: 20px;
+  display: block;
+  margin-top: 10px; }
+  .btn.btn-roxo, .btn-roxo.btn-azul {
+    background-color: purple;
+    color: white;
+    border: solid;
+    border-color: black;
+    cursor: pointer; }
+  .btn.btn-amarelo, .btn-amarelo.btn-azul {
+    background-color: yellow;
+    color: black;
+    border: solid;
+    border-color: black;
+    cursor: pointer; }
+
+.btn-azul {
+  background-color: blue;
+  color: white; }
+
+/*# sourceMappingURL=style.css.map */

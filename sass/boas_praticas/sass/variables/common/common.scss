@@ -1,0 +1,26 @@
+body {
+    background-color: $secondary-color;
+}
+
+#title-home {
+    font-size: 44px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.btn {
+    width: 95px;
+    padding: 10px 0px;
+    cursor: inherit;
+    background-color: $btn-background;
+    color: white;
+    display: block; // Um botão debaixo do outro
+    margin-top: 10px;
+}
+
+@mixin text-style($color, $font-size, $font-family){
+    color: $color;
+    font-size: $font-family;
+    font-family: $font-family;
+}
+
+// Deixar o site mais rápido no final - Abra o terminal e digite: sass sass/style.scss:css/style.css --style compressed
