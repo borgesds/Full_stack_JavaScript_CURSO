@@ -1,3 +1,4 @@
+//Associando classes
 class captain {
     constructor(name, age, flightsHours) {
         this.name = name;

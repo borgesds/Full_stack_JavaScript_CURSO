@@ -1,3 +1,4 @@
+//Herança
 class spaceship {
     constructor(name, maxCrew, maxRecommendedVelocity) {
         this.name = name;
@@ -19,7 +20,7 @@ class battleSpaceship extends spaceship {
         this.currentVelocity = 0
         alert("Recolhendo armas e parando nave de batalha")
     }
-}
+}1
 
 class discoverySpaceship extends spaceship {
     stop() {
