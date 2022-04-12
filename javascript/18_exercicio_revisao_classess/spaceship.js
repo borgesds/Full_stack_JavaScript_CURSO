@@ -10,6 +10,6 @@ class spaceship {
     }
 
     speedUp(acceleration) {
-        this.currentVelocity += acceleration *(1 - (spaceship.DECELERATION_RATE))
+        this.currentVelocity += acceleration * (1 - (spaceship.DECELERATION_RATE))
     }
 }
