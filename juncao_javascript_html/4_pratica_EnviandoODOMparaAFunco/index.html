@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviando o DOM para a função</title>
+    <script src="js/get-object.js"></script>
+    <style>
+        body { background-color: rgb(0, 0, 0); }
+        h1 {color: #a01515ee}
+        h2 {color: #a7a4a4d3}
+        p {color: #ce1313ee}
+    </style>
+</head>
+<body>
+    <form>
+        <p>
+            <label>Nome: </label>
+            <input type="text" name="first-name" onchange="sayMyFirstName(this)">
+        </p>
+
+        <p>
+            <label>Sobrenome: </label>
+            <input type="text" name="last-name" onchange="sayMyLastName()">
+        </p> 
+    </form>
+</body>
+</html>

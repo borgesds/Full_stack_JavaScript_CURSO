@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulando o DOM</title>
+    <script src="js/home-registration.js"></script>
+    <style>
+        body { background-color: rgb(0, 0, 0); }
+        h1 {color: #a01515}
+        h2 {color: #a7a4a4d3}
+        p {color: #ffffff}
+        ul {color: #ffffff}
+    </style>
+</head>
+<body>
+    <h1>Home Registration</h1>
+
+    <form>
+        <p>
+            <label>Área</label>
+            <input type="text" name="area">
+        </p>
+    
+        <p>
+            <label>Número</label>
+            <input type="text" name="number">
+        </p>
+    
+        <p>
+            <label>Bairro</label>
+            <input type="text" name="neighborhood">
+        </p>
+    
+        <p>
+            <label>Cidade</label>
+            <input type="text" name="city">
+        </p>
+
+        <p>
+            <label>Estado</label>
+            <input type="text" name="state">
+        </p>
+    
+        <button onclick="saveRegister()" type="button">Salvar</button>
+    </form>
+
+    <ul id="house-list"></ul>
+</body>
+</html>
