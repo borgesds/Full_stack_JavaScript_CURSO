@@ -1,6 +1,6 @@
 class App {
     addProperty() {
-        event.preventDefault()
+        window.event.preventDefault()
         let kind = document.querySelector("select[name='kind']").value
         let area = document.querySelector("input[name='area']").value
         let rented = document.querySelector("input[name='rented']").checked
@@ -33,7 +33,7 @@ class App {
     createRemoveButton() {
         let buttonToRemove = document.createElement("button")
         buttonToRemove.setAttribute("onclick", "app.remove()")
-        buttonToRemove.innerText ="Remover"
+        buttonToRemove.innerText = "Remover"
         return buttonToRemove
     }
 
@@ -43,7 +43,7 @@ class App {
     }
 
     remove() {
-        let liToRemove = event.target.parentNode //Pegar  o elemento que vc quer remover (event.target = buscar o botão) & o "li" é o evento pai(.parentNode)
+        let liToRemove = window.event.target.parentNode //Pegar  o elemento que vc quer remover (event.target = buscar o botão) & o "li" é o evento pai(.parentNode)
         document.getElementById("properties").removeChild(liToRemove)
     }
 }
