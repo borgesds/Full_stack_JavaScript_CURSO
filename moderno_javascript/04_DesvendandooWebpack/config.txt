@@ -1,0 +1,47 @@
+sudo chown -R $USER:$GROUP ~/.npm
+sudo chown -R $USER:$GROUP ~/.config
+
+instalar antes do webpack, pq pode ter alguma alteração.
+
+--INSTALAR O WEBPACK
+
+npm install --save-dev webpack webpack-cli
+
+--Install a biblioteca moment
+
+npm install moment
+
+--Install 
+
+npx webpack
+
+--URGENT: 
+O npx acima é só para execução do exercício. Depois de criar um arquivo webpack.config.js, deve excluir o main.js se vc executou o codigo acima se não so criar dentro do novo arquivo:
+
+module.exports = {
+    entry: {
+        index: './src/index.js'
+    }
+}
+
+Execute:
+npx webpack --mode development
+
+==> NAME DECLARATION DEFAULT: <==
+
+const path = require('path')
+
+module.exports = {
+    entry: {
+        index: './src/index.js', 
+        galaxy: './src/galaxy.js'
+    },
+
+    output: {
+        filename: '[name].bundle.js', 
+        path: path.resolve(__dirname, 'dist')
+    }
+}
+
+Execute:
+npx webpack --mode development
