@@ -2,26 +2,35 @@
 npm init -y
 
 
+instalar antes do webpack, pq pode ter alguma alteração:
 
 sudo chown -R $USER:$GROUP ~/.npm
 sudo chown -R $USER:$GROUP ~/.config
 
-instalar antes do webpack, pq pode ter alguma alteração.
 
 --INSTALAR O WEBPACK
 
 npm install --save-dev webpack webpack-cli
 
+-- 1-Crie um diretorio chamado src e dentro um arquivo index.js
+-- 2-Crie um diretorio chamado dist e dentro um arquivo index.html
+-- 3-<script src="main.js"></script> /*Arquivo padrão que o webpack cria*/
+
 --Install a biblioteca moment
 
 npm install moment
+
+
+-- 1-No arquivo index.js import o moment
 
 --Install 
 
 npx webpack
 
 --URGENT: 
-O npx acima é só para execução do exercício. Depois de criar um arquivo webpack.config.js, deve excluir o main.js se vc executou o código acima se não so criar dentro do novo arquivo:
+O npx acima é só para execução do exercício. ==>Depois de criar um arquivo webpack.config.js, e em seguida deve excluir o main.js se vc executou o código acima. Ele vai buscar o arquivo index.js == './src/index.js' que é passado o caminho dentro do webpack.config.js:
+
+--> Troque <script src="index.js"></script> /*Arquivo padrão que o webpack cria*/
 
 module.exports = {
     entry: {
@@ -32,7 +41,10 @@ module.exports = {
 Execute:
 npx webpack --mode development
 
+
+
 ==> NAME DECLARATION DEFAULT: <==
+-- Add outro arquivo com o caminho.
 
 const path = require('path')
 
@@ -50,6 +62,14 @@ module.exports = {
 
 Execute:
 npx webpack --mode development
+
+--> Trocar o script dentro do html:
+
+<script src="index.bundle.js"></script> /*Arquivo padrão que o webpack cria*/
+<script src="galaxy.bundle.js"></script> /*Arquivo padrão que o webpack cria*/
+</body>
+
+
 
 --INSTALAR o BABEL PARA FUNCIONAR JUNTO
 
@@ -82,7 +102,7 @@ module.exports = {
     }
 }
 
---Criar um arquivo babel.config:
+==> Criar um arquivo babel.config.js:
 
 module.exports = {
     preset: [
@@ -99,8 +119,6 @@ npx webpack --mode development
 --Criar mini servidor local:
 
 npm install webpack-dev-server --save-dev
-
-
 
 
 
