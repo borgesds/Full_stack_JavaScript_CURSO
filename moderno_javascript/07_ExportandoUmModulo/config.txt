@@ -5,7 +5,7 @@
 
 
 
-==> Criar um diretório
+==> Criar um diretorio
 npm init -y
 
 
