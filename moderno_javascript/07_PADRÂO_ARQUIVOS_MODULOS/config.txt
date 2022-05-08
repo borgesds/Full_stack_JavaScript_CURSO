@@ -109,10 +109,7 @@ module.exports = {
     }
 }
 
-==> Criar um arquivo babel.config.js:
-
-module.exports = {
-    preset: [
+==> Criar um arquivo ^
         [
             "@babel/preset-env"
         ]
