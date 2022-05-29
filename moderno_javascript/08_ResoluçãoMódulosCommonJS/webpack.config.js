@@ -1,28 +1,29 @@
-const path = require('path')
+const path = require("path")
 
 module.exports = {
-    entry: {
-        index: './src/index.js'
-    },
+  entry: {
+    index: './src/index.js'
+  },
 
-    output: {
-        filename: '[name].bundle.js', 
-        path: path.resolve(__dirname, 'dist')
-    },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
 
-    module: {
-        rules: [{
-            test: /\.js$/, //Pega todos os arquivos que tem .JS
-            use: ['babel-loader']
-        }]
-    },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: ['babel-loader']
+      }
+    ]
+  },
 
-    watch: true,
+  watch: true,
 
-    devServer: {
-        static: {
-            directory: path.join(__dirname, "dist"),
-            watch: true,
-        }
-    }
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    watchContentBase: true,
+    liveReload: true
+  }
 }

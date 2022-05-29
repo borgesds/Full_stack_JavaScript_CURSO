@@ -1,5 +1,5 @@
-const Planet = require('./planeta')
-const planetOperation = require('./planet_operation')
+import Planet from './planeta.js'
+import { covertAUtoKm } from './planet_operation.js'
 
 let planets = [
     new Planet("Mercúrio", 0.39),
@@ -13,6 +13,6 @@ let planets = [
 ]
 
 planets.forEach(planet => {
-    distanceFromSun = planetOperation.convertAUtoKm(planet.auTosun).toFixed(2)
+    let distanceFromSun = covertAUtoKm(planet.auTosun).toFixed(2)
     console.log(`${planet.name} - ${planet.auTosun}AU - ${distanceFromSun}Km`)
 })
