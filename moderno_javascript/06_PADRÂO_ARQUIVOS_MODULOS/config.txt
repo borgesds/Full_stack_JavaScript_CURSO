@@ -21,7 +21,8 @@ npm install --save-dev webpack webpack-cli
 
 -- 1-Crie um diretorio chamado src e dentro um arquivo index.js
 -- 2-Crie um diretorio chamado dist e dentro um arquivo index.html
--- 3-<script src="main.js"></script> /*Arquivo padrão que o webpack cria*/
+-- 3-Crie um arquivo index.js dentro do src
+-- 4-<script src="main.js"></script> /*Arquivo padrão que o webpack cria*/
 
 --Install a biblioteca moment
 
