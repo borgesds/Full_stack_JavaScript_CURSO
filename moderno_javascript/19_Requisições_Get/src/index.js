@@ -23,7 +23,7 @@ function renderNEOs(neos) {
         const liElement = document.createElement("li")
         const isSentry = neo.isSentry ? "Perigo de colisão" : "Sem perigo de colisão"
         const text = `${neo.id} | ${neo.name} | ${neo.averageEstimatedDiameter} | ${isSentry}`
-        liElement;innerText = text
+        liElement.innerText = text
         ulElement.appendChild(liElement)
     })
 } 
