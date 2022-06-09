@@ -1,0 +1,1 @@
+npx create-react-app my-app(nome do app, pode ser usado como => my-first-app ou my-house-app)
