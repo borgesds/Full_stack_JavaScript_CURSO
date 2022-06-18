@@ -1,2 +1,8 @@
 =>Instalar o  Express (gera o node_modules)
 npm install express --save 
+
+=>Instalar o nodemon (Faz atualizações em tempo real)
+npm install nodemon --save-dev
+
+=>Instalar o Postman
+snap install postman
