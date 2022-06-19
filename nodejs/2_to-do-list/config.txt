@@ -6,3 +6,7 @@ npm install nodemon --save-dev
 
 =>Instalar o Postman
 snap install postman
+
+=>Instalação do Mongoose
+(Adapitador entre o mongo e o NodeJS)
+npm install mongoose --save
