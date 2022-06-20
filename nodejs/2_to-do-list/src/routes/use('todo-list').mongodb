@@ -1,6 +1,7 @@
 use('todo-list')
 
-db.task.find()
+
+db.checklists.find()
 
 // db.task.find({checklistId: {$exists: true}})
 
@@ -18,6 +19,6 @@ db.task.find()
 
 // db.task.insertMany([{name: 'Preparar o café', done: false, checklistId: ObjectId('62af77a3b7b587d41b8c0aa9')}, {name: 'Ligar o notebook', done: true, checklistId: ObjectId('62af77a3b7b587d41b8c0aa9')}])
 
-
+// db.checklist.drop()
 
 // ???db.checklist.aggregate({$lookup: {from: "task", localField: "_id", foreignField: "checklistId", as "tasks"}}).pretty()???
