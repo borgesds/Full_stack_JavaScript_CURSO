@@ -1,5 +1,6 @@
 use('todo-list')
 
+db.checklists.deleteOne({name: "Fazer uma nova função"})
 
 db.checklists.find()
 
