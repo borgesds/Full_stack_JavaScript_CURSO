@@ -10,3 +10,7 @@ snap install postman
 =>Instalação do Mongoose
 (Adapitador entre o mongo e o NodeJS)
 npm install mongoose --save
+
+==>EJS e configuração com o Express<==
+    =>Instalar oEJS 
+        npm i ejs --save

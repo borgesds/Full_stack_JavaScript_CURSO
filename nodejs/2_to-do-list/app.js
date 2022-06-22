@@ -1,6 +1,10 @@
 //Import
 const express = require('express')
+const path = require('path')
+
 const checkListRouter = require('./src/routes/checklist')
+const rootRouter = require('./src/routes/index')
+
 require('./config/database')
 
 
@@ -8,7 +12,13 @@ const app = express()
 //Verifica se tem algum json para deixar disponível
 app.use(express.json())
 
-app.use('/checklist', checkListRouter) //Todas as rotas que estirem dentro vão sem derivadas do checklist.js
+// Setar o caminho onde as views esta(__dirname é sempre o diretório que estamos no momento)
+app.set('views', path.join(__dirname, 'src/views'))
+// Instalar a view engine
+app.set('view engine', 'ejs')
+
+app.use('/', rootRouter)
+app.use('/checklist', checkListRouter) //Todas as rotas que estiverem dentro vão ser derivadas do checklist.js
 
 // //Middlewares - Logar informações
 // const log = (req, res, next) => {
