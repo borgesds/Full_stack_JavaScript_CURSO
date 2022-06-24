@@ -12,20 +12,29 @@ router.get('/', async (req, res) => {
         let checklists = await Checklist.find({})
         res.status(200).render('checklists/index', { checklists: checklists })
     } catch (error) {
-        res.status(200).render('pages/error', {error: 'ERRO AO EXIBIR AS LISTAS DE TAREFAS'})
+        res.status(500).render('pages/error', {error: 'ERRO AO EXIBIR AS LISTAS DE TAREFAS'})
     }
 })
 
+// Criando rotas para novos dados
+router.get('/new', async (req, res) => {
+    try {
+        res.status(200).render('checklists/new', { checklist: checklist })
+    } catch (error) {
+        res.status(500).render('pages/error', {error: 'ERRO AO CARREGAR O FORMULÁRIO'})
+    }
+})
 
 // Criar e mandar para o banco de dados
 router.post('/', async (req, res) => {
-    let { name } = req.body
+    let { name } = req.body.checklist
+    let checklist = new Checklist({name})
     
     try {
-        let checklist = await Checklist.create({ name })
-        res.status(200).json(checklist)
+        await Checklist.save()
+        res.redirect.apply('/checklists')
     } catch(error) {
-        res.status(422).json(error)
+        res.status(422).render('pages/error', {error: 'ERRO AO CRIAR CHECKLIST'})
     }
 })
 
@@ -35,7 +44,7 @@ router.get('/:id', async (req, res) => {
         let checklist = await Checklist.findById(req.params.id)
         res.status(200).render('checklists/show', { checklist: checklist })
     } catch (error) {
-        res.status(200).render('pages/error', {error: 'ERRO AO EXIBIR AS LISTAS DE TAREFAS'})
+        res.status(422).render('pages/error', {error: 'ERRO AO EXIBIR AS LISTAS DE TAREFAS'})
     }
 })
 
@@ -70,6 +79,18 @@ module.exports = router
 //         res.status(200).json(checklists)
 //     } catch (error) {
 //         res.status(500).json(error)
+//     }
+// })
+
+// Criar e mandar para o banco de dados
+// router.post('/', async (req, res) => {
+//     let { name } = req.body
+    
+//     try {
+//         let checklist = await Checklist.create({ name })
+//         res.status(200).json(checklist)
+//     } catch(error) {
+//         res.status(422).json(error)
 //     }
 // })
 
