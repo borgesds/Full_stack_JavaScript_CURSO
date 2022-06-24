@@ -12,6 +12,9 @@ const app = express()
 //Verifica se tem algum json para deixar disponível
 app.use(express.json())
 
+// Arquivos estáticos
+app.use(express.static(path.join(__dirname, 'public')))
+
 // Setar o caminho onde as views esta(__dirname é sempre o diretório que estamos no momento)
 app.set('views', path.join(__dirname, 'src/views'))
 // Instalar a view engine

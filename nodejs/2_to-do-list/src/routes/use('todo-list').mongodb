@@ -1,6 +1,6 @@
 use('todo-list')
 
-db.checklists.deleteOne({name: "Fazer uma nova função"})
+db.checklists.insert({name: 'Atividades do trabalho', tasks: [{name: 'Importar mailing'}, {name: 'Preparar dados para o relatorio'}, {name: 'Zua a galera'}]})
 
 db.checklists.find()
 
