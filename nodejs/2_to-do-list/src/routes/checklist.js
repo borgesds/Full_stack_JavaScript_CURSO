@@ -19,6 +19,7 @@ router.get('/', async (req, res) => {
 // Criando rotas para novos dados
 router.get('/new', async (req, res) => {
     try {
+        let checklist = new Checklist()
         res.status(200).render('checklists/new', { checklist: checklist })
     } catch (error) {
         res.status(500).render('pages/error', {error: 'ERRO AO CARREGAR O FORMULÁRIO'})
@@ -31,10 +32,10 @@ router.post('/', async (req, res) => {
     let checklist = new Checklist({name})
     
     try {
-        await Checklist.save()
+        await checklist.save()
         res.redirect.apply('/checklists')
     } catch(error) {
-        res.status(422).render('pages/error', {error: 'ERRO AO CRIAR CHECKLIST'})
+        res.status(422).render('checklists/new', {checklists: {...checklist, error}})
     }
 })
 

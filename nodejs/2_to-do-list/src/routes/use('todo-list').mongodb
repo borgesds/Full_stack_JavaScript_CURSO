@@ -1,5 +1,7 @@
 use('todo-list')
 
+// db.createCollection('checklists')
+
 db.checklists.insert({name: 'Atividades do trabalho', tasks: [{name: 'Importar mailing'}, {name: 'Preparar dados para o relatorio'}, {name: 'Zua a galera'}]})
 
 db.checklists.find()

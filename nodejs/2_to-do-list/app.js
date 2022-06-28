@@ -4,6 +4,7 @@ const path = require('path')
 
 const checkListRouter = require('./src/routes/checklist')
 const rootRouter = require('./src/routes/index')
+const methodOverride = require('method-override')
 
 require('./config/database')
 
@@ -11,6 +12,11 @@ require('./config/database')
 const app = express()
 //Verifica se tem algum json para deixar disponível
 app.use(express.json())
+// Pega os valores do form e da url e deixam disponíveis 
+app.use(express.urlencoded({extended: true}))
+// Método complementar o banco de dados
+app.use(methodOverride('_method'))
+
 
 // Arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')))

@@ -14,3 +14,6 @@ npm install mongoose --save
 ==>EJS e configuração com o Express<==
     =>Instalar oEJS 
         npm i ejs --save
+
+=>Instalação do MethodOverride
+npm i method-override --save
