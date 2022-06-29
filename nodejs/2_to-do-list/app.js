@@ -14,8 +14,8 @@ const app = express()
 app.use(express.json())
 // Pega os valores do form e da url e deixam disponíveis 
 app.use(express.urlencoded({extended: true}))
-// Método complementar o banco de dados
-app.use(methodOverride('_method'))
+// Método complementar para banco de dados
+app.use(methodOverride('_method', {methods: ['POST', 'GET']}))
 
 
 // Arquivos estáticos
