@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
 // Buscar as coisas por id
 router.get('/:id', async (req, res) => {
     try {
-        let checklist = await Checklist.findById(req.params.id)
+        let checklist = await Checklist.findById(req.params.id).populate('task')
         res.status(200).render('checklists/show', { checklist: checklist })
     } catch (error) {
         res.status(422).render('pages/error', {error: 'ERRO AO EXIBIR AS LISTAS DE TAREFAS'})

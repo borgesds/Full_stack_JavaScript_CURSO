@@ -3,6 +3,8 @@ const express = require('express')
 const path = require('path')
 
 const checkListRouter = require('./src/routes/checklist')
+const taskRouter = require('./src/routes/task')
+
 const rootRouter = require('./src/routes/index')
 const methodOverride = require('method-override')
 
@@ -28,6 +30,13 @@ app.set('view engine', 'ejs')
 
 app.use('/', rootRouter)
 app.use('/checklist', checkListRouter) //Todas as rotas que estiverem dentro vão ser derivadas do checklist.js
+app.use('/checklist', taskRouter.checklistDependent)
+
+
+//Chamar o servidor
+app.listen(3000, () => {
+    console.log('Servidor Online')
+})
 
 // //Middlewares - Logar informações
 // const log = (req, res, next) => {
@@ -48,7 +57,3 @@ app.use('/checklist', checkListRouter) //Todas as rotas que estiverem dentro vã
 //     res.json({title: 'Tarefa x', done: true})
 // })
 
-//Chamar o servidor
-app.listen(3000, () => {
-    console.log('Servidor Online')
-})
