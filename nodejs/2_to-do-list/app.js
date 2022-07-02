@@ -31,6 +31,7 @@ app.set('view engine', 'ejs')
 app.use('/', rootRouter)
 app.use('/checklist', checkListRouter) //Todas as rotas que estiverem dentro vão ser derivadas do checklist.js
 app.use('/checklist', taskRouter.checklistDependent)
+app.use('/tasks', taskRouter.simple)
 
 
 //Chamar o servidor
