@@ -1,0 +1,27 @@
+use('todo-list')
+
+// db.createCollection('checklists')
+
+db.checklists.insert({name: 'Atividades do trabalho', tasks: [{name: 'Importar mailing'}, {name: 'Preparar dados para o relatorio'}, {name: 'Zua a galera'}]})
+
+db.checklists.find()
+
+// db.task.find({checklistId: {$exists: true}})
+
+// db.task.find({$or: [{name: 'Preparar o café', done: true}]})
+
+// db.task.find({$and: [{name: 'Preparar o café', done: false}]})
+
+// db.createCollection('task')
+
+// db.checklist.insert({name: 'Atividades da manha'})
+
+// db.task.insert({name: 'Preparar café', done: false})
+
+// db.task.deleteOne({name: 'Preparar café', done: false})
+
+// db.task.insertMany([{name: 'Preparar o café', done: false, checklistId: ObjectId('62af77a3b7b587d41b8c0aa9')}, {name: 'Ligar o notebook', done: true, checklistId: ObjectId('62af77a3b7b587d41b8c0aa9')}])
+
+// db.checklist.drop()
+
+// ???db.checklist.aggregate({$lookup: {from: "task", localField: "_id", foreignField: "checklistId", as "tasks"}}).pretty()???
