@@ -120,7 +120,7 @@ const Planet = sequelize.define("planets", {
 
 module.exports = Planet
 
-=>3. Agora iremos fazer as configurações dentro de “index.js” Para que possamos inserir aqui e fazer outras configs também!
+=>Agora iremos fazer as configurações dentro de “index.js” Para que possamos inserir aqui e fazer outras configs também!
 
 (async () => {
   const Planet = require("./models/Planet");
@@ -139,6 +139,8 @@ $ node index
 =>E com isso, você pode criar quantos planetas quiser, vamos criar mais 2 apenas para ter conteúdo suficiente para ler quando fizermos o read (Venus e marte)
 
 
+
+
 =>Atualizando valores via sequelize
 
 Vamos fazer aqui mais um método do CRUD, que é o de Update, nesse caso, iremos criar um método para atualizar valores
@@ -152,3 +154,137 @@ const updatePlanets = await Planet.findByPk(1);
   console.log(updatePlanets);
 
 =>2. Fazendo isso, conseguimos alterar o nome do planeta com ID 1, que antes era só terra, virou terra 616, que é uma referência para a marvel 😄
+
+
+
+
+=>Removendo valores via Sequelize
+
+Agora iremos fazer o D do CRUD, o nosso delete, iremos também pegar um pouco do método de Read, para acharmos o que queremos deletar
+
+=>Iremos copiar o nosso método Read de novo, para reaproveitar ele, mudando os nomes e colocando apenas algo básico no final
+
+const deletePlanets = await Planet.findByPk(1);
+console.log(deletePlanets);
+
+await deletePlanets.destroy();
+
+=>Recomendo sempre que você tenha muito cuidado ao deletar, sempre preste atenção se você está deletando o correto, depois disso, basta colocar o “node index” que vai ser deletado aquela linha
+
+=>Agora, você viu o método CRUD inteiro. E caso queira, pode também fazer outros métodos de busca pelo que você quer que deixa até mais seguro (com o where buscando pelo name)
+
+
+
+
+==>Transformando em uma API<==
+
+=>Para fazermos requisições, vamos transformar nosso projeto em uma API, faremos via postman, que você pode encontrar aqui: https://www.postman.com/downloads/. Instale-o antes de continuarmos para as próximas etapas para utilizarmos mais à frente.
+
+=>Vamos criar uma pasta nova chamada “src” e dentro dela, colocaremos o nosso arquivo index.js e também criaremos um arquivo chamado routes.js
+
+=>Em seguida, vamos criar uma pasta chamada Controllers, e dentro dela, um arquivo chamado “PlanetController.js”, onde colocaremos os nossos métodos CRUD!
+
+=>Vamos fazer a configuração de routes.js: nele teremos algumas instruções de por onde acessaremos as rotas de CRUD:
+
+const express = require("express");
+const routes = express.Router();
+
+const PlanetController = require("../Controllers/PlanetController");
+
+
+// Rotas de Planets
+routes.post("/planets", PlanetController.store);
+
+module.exports = routes;
+
+=>Vamos configurar também o arquivo “index.js” que terá algumas informações novas, já que iremos separar os métodos dentro do controller.
+
+const express = require("express");
+const routes = require("./routes");
+
+const app = express();
+
+app.use(express.json());
+app.use(routes);
+
+app.listen(3000);
+
+=>Temos o nosso arquivo de rotas criado, então vamos partir para Controller,onde teremos os nossos métodos. O primeiro será POST!
+
+const Planet = require("../models/Planet");
+
+module.exports = {
+  async store(req, res) {
+    const { name, position } = req.body;
+
+    const planet = await Planet.create({ name, position });
+
+    return res.json(planet);
+  },
+};
+
+=>Vamos instalar o nodemon, pois é através dele que vamos realizar as requisições. Utilize o comando: npm install nodemon --save-dev. Em seguida, vamos subir o nosso server utilizando o comando “npx nodemon src/index.js”. No postman, criamos uma pasta chamada API e dentro dela, outra pasta chamada planet, onde faremos uma request chamada de POST, colocando o link: http://localhost:3000/planets
+
+=>Em seguida, você vai em body > raw  e escolha a opção do tipo de arquivo de Text para JSON, para criar um arquivo JSON no body com as informações que precisam ser passadas.
+
+{
+"name": "Terra",
+"position": 3
+}
+
+=>Agora iremos criar um método GET, que terá a busca de todos os planetas. No postman, dentro da pasta, inserimos uma request GET, que terá o link “http://localhost:3000/planets”.
+
+=>Em routes, iremos adicionar um método GET com o nome planets.
+
+routes.get("/planets", PlanetController.index);
+
+=>Agora vamos criar o método findAll em controller,  para buscar todos os planetas.
+
+	async index(req, res) {
+    const planets = await Planet.findAll();
+
+    return res.json(planets);
+    },
+
+=>Indo no método GET, criado no postman e clicando em “SEND”, teremos exatamente o retorno do que queremos, todos os planetas que fizemos até agora!
+
+=>Vamos fazer um update de acordo com o ID, criando primeiro a rota, depois o controller.
+
+routes.put("/planets/:id", PlanetController.put);
+
+=>Agora vamos fazer com que o “:id” ache exatamente o planeta que queremos, e com isso, faremos com que seja atualizado apenas o valor específico naquele id, para o Controller!
+
+async put(req, res) {
+    const { name, size, position } = req.body;
+    await Planet.update(
+      { name, size, position },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+    return res.send("Planet update with sucess");
+},
+
+=>Iremos excluir pelo id também, de uma forma parecida com a que fizemos com o update! Começando com as rotas!
+
+routes.delete("/planets/:id", PlanetController.delete);
+
+=>E agora vamos alterar o controller, fazendo algo parecido com o que fizemos no update!
+
+async delete(req, res) {
+    await Planet.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.send("Sucess! Planet exclude.");
+},
+
+=>Vamos criar um request dentro de planet, como fizemos com os outros e colocar o http que inserimos na rota!
+
+http://localhost:3000/planets/3
+
+=>Com isso, temos o nosso CRUD transformado em API e podemos prosseguir para brincar com outros métodos e outros tipos de funcionalidades!

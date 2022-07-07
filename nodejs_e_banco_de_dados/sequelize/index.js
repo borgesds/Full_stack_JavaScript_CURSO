@@ -7,13 +7,22 @@
     // })
 
     // consultar BD
-    const seePlanets = await Planet.findAll({
-        where: {
-            position: 1
-        }
-    }) // findAll() ou findByPk(2)
+    // const seePlanets = await Planet.findAll({
+    //     where: {
+    //         position: 1
+    //     }
+    // }) // findAll() ou findByPk(2)
 
-console.log("Banco de dados:")
-console.log(seePlanets)
+    // atualizar dados
+    // const updatePlanets = await Planet.findByPk(2)
+    //     updatePlanets.position = 2
+    //     await updatePlanets.save()
+
+    // delete
+    const deletePlanets = await Planet.findByPk(1)
+
+    console.log(deletePlanets)
+
+    await deletePlanets.destroy()
 
 })();
