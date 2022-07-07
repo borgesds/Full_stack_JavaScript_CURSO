@@ -99,3 +99,56 @@ $ sequelize db:migrate:undo
 
 =>E agora a sua tabela sumiu, mas dando “db:migrate” ela vai voltar ao normal. Isso é útil caso você tenha colocado um item errado. Mas não pode fazer isso depois que já foi para produção.
 
+=>Vamos criar dentro da pasta config um arquivo chamado sequelize.js, ele terá as configurações que iremos usar no topo dos nossos models!
+
+const Sequelize = require("sequelize");
+const database = require("./config");
+
+const sequelize = new Sequelize(database);
+
+module.exports = sequelize;
+
+=>Vamos criar um arquivo chamado de “Planet.js” dentro de models e também vamos criar um arquivo chamado de “index.js” na raiz do projeto. Primeiro vamos fazer a config de Planet.js
+
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/sequelize");
+
+const Planet = sequelize.define("planets", {
+  name: DataTypes.STRING,
+  position: DataTypes.INTEGER,
+});
+
+module.exports = Planet
+
+=>3. Agora iremos fazer as configurações dentro de “index.js” Para que possamos inserir aqui e fazer outras configs também!
+
+(async () => {
+  const Planet = require("./models/Planet");
+
+  const newPlanet = await Planet.create({
+    name: "Terra",
+    position: 3,
+  });
+  console.log(newPlanet);
+})();
+
+=>4. Agora, rodando um comando no terminal, teremos a confirmação no próprio terminal se está correto ou não e se foi criado ou não!
+
+$ node index
+
+=>E com isso, você pode criar quantos planetas quiser, vamos criar mais 2 apenas para ter conteúdo suficiente para ler quando fizermos o read (Venus e marte)
+
+
+=>Atualizando valores via sequelize
+
+Vamos fazer aqui mais um método do CRUD, que é o de Update, nesse caso, iremos criar um método para atualizar valores
+
+=>remos aqui começar com a criação desse método na pasta index.js. Iremos copiar o método que criamos de achar, para alterar em cima disso!
+
+const updatePlanets = await Planet.findByPk(1);
+  updatePlanets.name = "Terra616";
+
+  await updatePlanets.save();
+  console.log(updatePlanets);
+
+=>2. Fazendo isso, conseguimos alterar o nome do planeta com ID 1, que antes era só terra, virou terra 616, que é uma referência para a marvel 😄
