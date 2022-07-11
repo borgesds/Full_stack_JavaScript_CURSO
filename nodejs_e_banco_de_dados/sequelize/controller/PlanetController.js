@@ -1,4 +1,3 @@
-// Aqui é onde vai ter os métodos(POST, GET, PUT, DELETE)
 const Planet = require("../models/planet")
 
 module.exports = {

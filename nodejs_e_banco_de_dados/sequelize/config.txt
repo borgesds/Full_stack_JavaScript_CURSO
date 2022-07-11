@@ -450,3 +450,266 @@ async index(req,res) {
 return res.json(planet.satelite);
 
 =>Agora já temos um hasOne funcionando na nossa API
+
+=====>[RESOLUÇÃO] Associação Many to Many<=====
+
+=>Vamos começar criando uma migrate para caps
+
+$ sequelize migration:create --name=caps
+
+=>Agora vamos criar uma tabela da mesma forma para spaceships
+
+$ sequelize migration:create --name=spaceships
+
+=>Agora iremos criar a tabela “pivô”, chamada de capsSpaceships
+
+$ sequelize migration:create --name=capSpaceships
+
+=>Agora faremos nossa as migrations por ordem, primeiro caps
+
+"use strict";
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("caps", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      registerNumber: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+      },
+    });
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("caps");
+  },
+};
+
+=>Agora a migration de spaceship
+
+"use strict";
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("spaceships", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      capacity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+      },
+    });
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("spaceships");
+  },
+};
+
+=>Agora a migration de capSpaceship
+
+"use strict";
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("capSpaceship", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+      },
+      capId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "caps", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      spaceshipId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "spaceships", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+      },
+    });
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("capSpaceship");
+  },
+};
+
+=>Agora vamos criar os models, vamos criar Cap e Spaceship, não é necessário model para o pivô, pois ele será automático com os Ids. Primeiro vamos configurar Cap
+
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/sequelize");
+
+const Cap = sequelize.define("caps", {
+  name: DataTypes.STRING,
+  registerNumber: DataTypes.STRING,
+});
+
+module.exports = Cap;
+
+=>Agora vamos fazer o model de Spaceship
+
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/sequelize");
+
+const Spaceship = sequelize.define("spaceships", {
+  name: DataTypes.STRING,
+  capacity: DataTypes.INTEGER,
+});
+
+module.exports = Spaceship;
+
+=>Agora iremos lá em associations para fazer a associação deles como Many to Many
+
+const Cap = require("../models/Cap");
+const Spaceship = require("../models/Spaceship");
+
+Cap.belongsToMany(Spaceship, {
+  foreingKey: "capId",
+  through: "capSpaceship",
+  as: "spaceships",
+});
+
+Spaceship.belongsToMany(Cap, {
+  foreingKey: "spaceshipId",
+  through: "capSpaceship",
+  as: "caps",
+});
+
+=>Agora faremos a criação das tabelas por cli
+
+$ sequelize db:migrate
+
+=>Agora vamos criar os dois controllers, e importar eles dentro de routes
+
+const CapController = require("./controllers/CapController");
+const SpaceshipController = require("./controllers/SpaceshipController");
+
+=>Vamos primeiro fazer a rota de criação de listagem de cap, as duas de uma vez!
+
+routes.post("/cap", CapController.store);
+routes.get("/cap", CapController.index);
+
+=>Agora vamos criar os controllers no CapController, ambos também de uma vez, para agilizar
+
+const Cap = require("../models/Cap");
+
+module.exports = {
+  async store(req, res) {
+    const { name, registerNumber } = req.body;
+
+    const cap = await Cap.create({ name, registerNumber });
+
+    return res.json(cap);
+  },
+  async index(req, res) {
+    const cap = await Cap.findAll();
+
+    return res.json(cap);
+  },
+};
+
+=>E agora você pode testar, criando dois caps e também vendo se eles são listados! No postman, crie uma pasta chamada CAPS e o método GET, colocando a url: http://localhost:3000/cap
+
+=>Se quisermos criar um capitão, criamos um método post com a url: http://localhost:3000/cap e no body, inserimos o json:
+
+{
+"name": "Armstrong",
+"registerNumber": 87984984
+}
+
+=>Vamos agora para as rotas de spaceship!
+
+routes.post("/caps/:capId/spaceships", SpaceshipController.store);
+routes.get("/caps/:capId/spaceships", SpaceshipController.index);
+
+=>Vamos fazer também esses métodos (SpaceshipController, ambos de uma só vez!
+
+const Spaceship = require("../models/Spaceship");
+const Cap = require("../models/Cap");
+
+module.exports = {
+  async store(req, res) {
+    const { capId } = req.params;
+    const { name, capacity } = req.body;
+
+    const cap = await Cap.findByPk(capId);
+
+    if (!cap) {
+      res.send("Error, this cap does not exist!");
+    }
+
+    const [spaceships] = await Spaceship.findOrCreate({
+      where: { name, capacity },
+    });
+
+    await cap.addSpaceship(spaceships);
+
+    return res.json(spaceships);
+  },
+  async index(req, res) {
+    const { capId } = req.params;
+
+    const cap = await Cap.findByPk(capId, {
+      include: { association: "spaceships" },
+    });
+
+    return res.json(cap);
+  },
+};
+
+=>Dentro do arquivo association pode esta faltando a associação dos arquivos:
+
+
+
+=>Vamos testar no postman, utilizando o método GET, com a url:  http://localhost:3000/caps/2/spaceships e para inserir uma spaceship, no método post, vamos colocar a url: http://localhost:3000/caps/1/spaceships e no body, insira o Json:
+
+=>{
+    "name": "Apollo 11",
+    "capacity": 10
+}
+
+=>Com isso, você consegue criar e ver tranquilamente, podemos também fazer a passagem de método “cap.spaceships” para vermos apenas as spaceships, e você vai notar que dentro de spaceships tem um capSpaceships, mostrando como foi feito o pivô entre eles.
+
+=>Crie 3 caps e 3 spaceships para cada cap, também faça uma brincadeira, você pode fazer com que a 1 nave, seja pertencente a 3 caps, para que dessa forma você veja, tanto no pgadmin quanto no método get que o Many to Many está sendo aplicado com sucesso!
